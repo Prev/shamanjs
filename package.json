@@ -1,6 +1,7 @@
 {
-  "name": "shamanjs",
-  "version": "0.13.0",
+  "name": "shamanld",
+  "version": "0.13.1",
+  "main": "src/index.js",
   "scripts": {
     "build": "gulp build",
     "test": "mocha"

@@ -1,5 +1,6 @@
 # ShamanJS
-[![Build Status](https://travis-ci.org/Prev/shamanjs.svg)](https://travis-ci.org/Prev/shamanjs) 
+[![Build Status](https://travis-ci.org/Prev/shamanjs.svg)](https://travis-ci.org/Prev/shamanjs)
+[![npm version](https://badge.fury.io/js/shamanld.svg)](https://www.npmjs.com/package/shamanld)
 
 Programming Language Detector implemented by `JavaScript`.
 Based on the repository [shaman](https://github.com/Prev/shaman), written by Python.
@@ -14,6 +15,12 @@ In a browser:
 
 ```html
 <script src="lodash.js"></script>
+```
+
+Using npm:
+
+```bash
+$ npm i --save shamanld
 ```
 
 
