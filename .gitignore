@@ -61,8 +61,5 @@ typings/
 # next.js build output
 .next
 
-# compiled code
-dist/
-
 # IDE
 .idea

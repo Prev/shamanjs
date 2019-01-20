@@ -14,7 +14,7 @@ Implemented with Naïve Bayes Classification, and the library includes 1MB train
 In a browser:
 
 ```html
-<script src="lodash.js"></script>
+<script src="dist/shaman.js"></script>
 ```
 
 Using npm:
