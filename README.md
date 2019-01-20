@@ -1,4 +1,5 @@
 # ShamanJS
+[![Build Status](https://travis-ci.org/Prev/shamanjs.svg)](https://travis-ci.org/Prev/shamanjs) 
 
 Programming Language Detector implemented by `JavaScript`.
 Based on the repository [shaman](https://github.com/Prev/shaman), written by Python.
