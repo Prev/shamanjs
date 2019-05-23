@@ -10,19 +10,21 @@ class KeywordFetcher {
         const prog = /([a-zA-Z0-9$*#@_-]+)/g;
         const matchedTokens = this._removeStrings(code).match(prog);
 
-        for (let token of matchedTokens) {
-            if (token.length <= 1) continue;
-            if (this._isNumeric(token)) continue;
+        if (matchedTokens) {
+            for (let token of matchedTokens) {
+                if (token.length <= 1) continue;
+                if (this._isNumeric(token)) continue;
 
 
-            if (token[0] === '-' || token[0] === '*') token = token.substr(1);
-            if (token[token.length-1] === '-' || token[token.length-1] === '*') token = token.substr(0, token.length-1);
+                if (token[0] === '-' || token[0] === '*') token = token.substr(1);
+                if (token[token.length - 1] === '-' || token[token.length - 1] === '*') token = token.substr(0, token.length - 1);
 
-            if (token.length <= 1) continue;
+                if (token.length <= 1) continue;
 
-            if (!ret[token]) ret[token] = 0;
+                if (!ret[token]) ret[token] = 0;
 
-            ++ret[token];
+                ++ret[token];
+            }
         }
         return ret;
     }

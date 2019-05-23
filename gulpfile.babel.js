@@ -8,7 +8,7 @@ const buffer = require('vinyl-buffer');
 
 gulp.task('build', () => {
     return browserify('src/index.js', {'standalone': 'Shaman'})
-        .transform(babelify)
+        .transform(babelify, {presets: ['@babel/preset-env']})
         .bundle()
         .pipe(source('shaman.js'))
         .pipe(buffer())

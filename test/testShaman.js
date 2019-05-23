@@ -61,3 +61,9 @@ describe('Test Code Detection', function () {
         assert(shaman.detect(code)[0][0] === 'python');
     });
 });
+
+describe('Test edge cases', function () {
+    it('empty string exception', function () {
+        shaman.detect('');
+    });
+});

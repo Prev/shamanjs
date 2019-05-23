@@ -1,6 +1,6 @@
 {
   "name": "shamanld",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "main": "src/index.js",
   "scripts": {
     "build": "gulp build",
