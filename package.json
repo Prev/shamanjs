@@ -1,6 +1,6 @@
 {
   "name": "shamanld",
-  "version": "0.13.2",
+  "version": "0.13.3",
   "main": "src/index.js",
   "scripts": {
     "build": "gulp build",
@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "lodash": "^4.17.13",
-    "vinyl-buffer": "^1.0.1"
+    "vinyl-buffer": "^1.0.1",
+    "set-value": ">=2.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.1",
