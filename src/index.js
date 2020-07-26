@@ -1,27 +1,28 @@
 const _ = require('lodash');
-const trainedSet = require('./trained.json');
-const SUPPORTING_LANGUAGES = ['actionscript', 'asp', 'bash', 'c', 'c#', 'css', 'haxe', 'html', 'java', 'javascript', 'jsp', 'objective-c', 'perl', 'php', 'python', 'ruby', 'sql', 'swift', 'visualbasic', 'xml'];
+const model = require('./model.json');
 
 class KeywordFetcher {
 
     static fetch(code) {
-        let ret = {};
+        const ret = {};
 
         const prog = /([a-zA-Z0-9$*#@_-]+)/g;
         const matchedTokens = this._removeStrings(code).match(prog);
 
         if (matchedTokens) {
-            for (let token of matchedTokens) {
+            for (const token of matchedTokens) {
                 if (token.length <= 1) continue;
                 if (this._isNumeric(token)) continue;
 
+                if (token[0] === '-' || token[0] === '*')
+                    token = token.substr(1);
+                if (token[token.length - 1] === '-' || token[token.length - 1] === '*')
+                    token = token.substr(0, token.length - 1);
 
-                if (token[0] === '-' || token[0] === '*') token = token.substr(1);
-                if (token[token.length - 1] === '-' || token[token.length - 1] === '*') token = token.substr(0, token.length - 1);
-
-                if (token.length <= 1) continue;
-
-                if (!ret[token]) ret[token] = 0;
+                if (token.length <= 1)
+                    continue;
+                if (!ret[token])
+                    ret[token] = 0;
 
                 ++ret[token];
             }
@@ -66,7 +67,6 @@ class KeywordFetcher {
     }
 }
 
-
 class PatternMatcher {
     // PATTERNS = [
     //     /(<.+>[^<]*<\/.+>)|<\\?.+>/, // markup
@@ -82,13 +82,12 @@ class PatternMatcher {
         if (code.length === 0)
             return 0;
 
-        let re = new RegExp(pattern, 'g');
-        let replacedCode = code.replace(re, '');
+        const re = new RegExp(pattern, 'g');
+        const replacedCode = code.replace(re, '');
         return (code.length - replacedCode.length) / code.length;
     }
 
 }
-
 
 /**
  * Detect Programming Language from Code
@@ -96,33 +95,37 @@ class PatternMatcher {
  * @returns Array of Pair (Language, Probability) sorted by Probability DESC
  */
 function detect(code) {
-    let probabilities = {};
-    let keywords = KeywordFetcher.fetch(code);
+    const probabilities = {};
+    const keywords = KeywordFetcher.fetch(code);
+    const languagesSupported = model['languages'];
 
-    for (let keyword of _.keys(keywords)) {
-        if (!trainedSet['keywords'][keyword])
+    for (const keyword of _.keys(keywords)) {
+        if (!model['keywords'][keyword])
             continue;
 
-        let data = trainedSet['keywords'][keyword];
-        let p_avg = _.sum(_.values(data)) / _.keys(data).length; // Average probability of all languages
+        const data = model['keywords'][keyword];
+        const p_avg = _.sum(data) / data.length; // Average probability of all languages
 
-        _.forIn(data, (probability, language) => {
-            let p = probability / p_avg;
+        data.forEach((prob, langId) => {
+            const p = prob / p_avg;
+            const language = languagesSupported[langId];
             probabilities[language] = _.get(probabilities, language, 0) + Math.log(1 + p);
         });
     }
 
-    _.forIn(trainedSet['patterns'], (data, pattern) => {
+    for (const pattern in model['patterns']) {
+        const data = model['patterns'][pattern];
         const p0 = PatternMatcher.getratio(pattern, code);
 
-        _.forIn(data, (p_avg, language) => {
+        data.forEach((p_avg, langId) => {
+            const language = languagesSupported[langId];
             if (!probabilities[language])
                 return;
 
-            let p = 1 - Math.abs(p_avg - p0);
+            const p = 1 - Math.abs(p_avg - p0);
             probabilities[language] *= p;
         });
-    });
+    }
 
     // Convert `log` operated probability to percentile
     const sum_val = _.sumBy(_.values(probabilities), p => Math.pow(Math.E / 2, p));
@@ -137,5 +140,4 @@ function detect(code) {
 module.exports = {
     'detect': detect,
     'KeywordFetcher': KeywordFetcher,
-    'SUPPORTING_LANGUAGES': SUPPORTING_LANGUAGES,
 };

@@ -1,13 +1,13 @@
 {
   "name": "shamanld",
-  "version": "0.13.3",
+  "version": "1.0.0",
   "main": "src/index.js",
   "scripts": {
     "build": "gulp build",
     "test": "mocha"
   },
   "dependencies": {
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.19",
     "vinyl-buffer": "^1.0.1",
     "set-value": ">=2.0.1"
   },
