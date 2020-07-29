@@ -14,7 +14,7 @@ Languages supported:
 Pre-trained model is included in this library, where the size of the model is **617KB**.
 The accuracy of the model is **78%**, where the model is trained with 120K codes and tested with 40K codes.
 
-Note that the included model consists of many raw texts, so enabling compression (e.g., gzip) on the CDN when serving the JS file greatly affects the time and cost to download the file.
+Note that the included model consists of many raw texts, so enabling compression (e.g., gzip) on the CDN when serving the JS file greatly affects the time and cost to download the file. (**175KB** when using gzip compression)
 
 See demo on [RunKit](https://runkit.com/prev/runkit-npm-shamanld).
 
